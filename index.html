@@ -2,43 +2,47 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#211044"><title>La aventura de César 💖</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;min-height:100%;background:#211044;color:#fff;font-family:system-ui,sans-serif;overscroll-behavior:none}
-body{min-height:100dvh;overflow:hidden;touch-action:pan-y}
-#wrap{width:100%;min-height:100dvh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:8px}
-#top{width:min(100%,960px);display:flex;justify-content:space-between;align-items:center;gap:8px;flex:0 0 auto}
-.pill{background:#ffffff22;border:1px solid #ffffff55;border-radius:20px;padding:6px 10px;font-size:clamp(11px,2.5vw,16px);white-space:nowrap}
-#gamebox{position:relative;width:min(100%,960px);aspect-ratio:16/9;max-height:76dvh;border:3px solid #ffffffc9;border-radius:14px;overflow:hidden;background:#8edbff;flex:0 1 auto;touch-action:manipulation}
+html,body{margin:0;width:100%;height:100%;background:#080d24;color:#fff;font-family:system-ui,sans-serif;overscroll-behavior:none}
+body{overflow:hidden;touch-action:none}
+#wrap{position:fixed;inset:0;width:100%;height:100%;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;align-items:stretch;gap:5px;padding:5px 8px calc(5px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at top,#253c7c 0%,#111a42 55%,#080d24 100%)}
+#top{width:100%;display:flex;justify-content:space-between;align-items:center;gap:7px;min-width:0;z-index:2}
+.pill{background:linear-gradient(135deg,#ffffff2b,#ffffff12);border:1px solid #ffffff55;border-radius:999px;padding:5px 12px;font-size:clamp(10px,1.7vw,15px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 3px 14px #0002;backdrop-filter:blur(8px)}
+#gamebox{position:relative;width:100%;height:100%;min-height:0;max-height:none;aspect-ratio:auto;border:1px solid #ffffff55;border-radius:12px;overflow:hidden;background:#8edbff;box-shadow:0 0 0 1px #7cecff35,0 8px 28px #0005;touch-action:manipulation}
 canvas{width:100%;height:100%;display:block;object-fit:fill}
-#overlay{position:absolute;inset:0;background:#180b36c9;display:flex;align-items:center;justify-content:center;padding:10px;text-align:center;overflow-y:auto;overscroll-behavior:contain}
+#overlay{position:absolute;inset:0;background:linear-gradient(135deg,#08122bd9,#201044c9);display:flex;align-items:center;justify-content:center;padding:clamp(8px,2vw,22px);text-align:center;overflow-y:auto;overscroll-behavior:contain}
 #overlay.hidden{display:none}
-.panel{width:min(100%,560px);max-height:100%;overflow-y:auto;overscroll-behavior:contain;background:#fff6e9;color:#32184c;border:3px solid white;border-radius:20px;padding:clamp(10px,2.5vw,24px);box-shadow:0 8px 0 #e6a5c7;margin:auto}
-h1{font-size:clamp(19px,4.6vw,36px);line-height:1.08;margin:0 0 8px}
-p{font-size:clamp(12px,2.1vw,16px);line-height:1.35;margin:7px 0}
-button{font:inherit;font-weight:bold;border:0;border-radius:15px;padding:11px 16px;background:#f41b1b;color:white;box-shadow:0 4px #f2435b;touch-action:manipulation;cursor:pointer}
-button:active{transform:translateY(2px)}
-#hint{font-size:11px;opacity:.85;text-align:center;flex:0 0 auto}
-@media(max-width:600px) and (orientation:portrait){
- #wrap{justify-content:flex-start;gap:6px;padding:calc(6px + env(safe-area-inset-top)) 5px calc(6px + env(safe-area-inset-bottom))}
- #top{gap:4px}.pill{font-size:10px;padding:5px 7px}
- #gamebox{width:100%;max-height:none;flex:0 0 auto}
- #hint{font-size:10px}
- #overlay{padding:7px}
- .panel{max-height:calc(100dvh - 24px);padding:10px 12px;border-radius:16px}
- h1{font-size:clamp(19px,5.5vw,26px);margin-bottom:5px}
- p{font-size:clamp(11px,3.2vw,14px);line-height:1.28;margin:5px 0}
- #panelBtn,#startBtn{padding:9px 13px;font-size:13px}
+.panel{width:min(100%,570px);max-height:100%;overflow-y:auto;overscroll-behavior:contain;background:linear-gradient(145deg,#fff9f1,#ffe8f3);color:#32184c;border:2px solid #fff;border-radius:20px;padding:clamp(12px,2.3vw,24px);box-shadow:0 8px 0 #d78dbb,0 16px 35px #0004;margin:auto}
+h1{font-size:clamp(19px,4.1vw,34px);line-height:1.08;margin:0 0 8px}
+p{font-size:clamp(12px,1.8vw,16px);line-height:1.35;margin:7px 0}
+button{font:inherit;font-weight:800;border:0;border-radius:999px;padding:11px 22px;background:linear-gradient(135deg,#ff438d,#ec176b);color:white;box-shadow:0 4px 0 #b30c50,0 8px 18px #ed176b44;touch-action:manipulation;cursor:pointer}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 #b30c50}
+#hint{font-size:clamp(9px,1.35vw,12px);opacity:.85;text-align:center;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rotateScreen{display:none;position:fixed;inset:0;z-index:99;background:radial-gradient(ellipse at top,#253c7c,#080d24 75%);align-items:center;justify-content:center;text-align:center;padding:28px}
+.rotate-card{max-width:330px}
+.rotate-icon{font-size:clamp(56px,18vw,90px);line-height:1.3;display:inline-block;animation:turnphone 1.8s ease-in-out infinite}
+@keyframes turnphone{0%,20%{transform:rotate(0)}60%,85%{transform:rotate(90deg)}100%{transform:rotate(90deg)}}
+.rotate-card h1{font-size:25px;margin:12px 0}
+.rotate-card p{font-size:15px;color:#e3e8ff}
+@media (orientation:portrait) and (max-width:900px){
+ #rotateScreen{display:flex}
+ #wrap{visibility:hidden}
 }
-@media(orientation:landscape) and (max-height:600px){
- #wrap{height:100dvh;min-height:0;gap:3px;padding:4px 8px}
- #top{font-size:12px}
- #gamebox{width:min(100%,calc((100dvh - 65px)*16/9));max-height:calc(100dvh - 65px);flex:1 1 auto;min-height:0}
- #hint{font-size:10px}
- #overlay{padding:6px}
- .panel{max-height:100%;padding:9px 14px}
- h1{font-size:clamp(18px,4vh,27px);margin-bottom:4px}
- p{font-size:clamp(11px,2.5vh,14px);line-height:1.25;margin:4px 0}
+@media (orientation:landscape) and (max-height:500px){
+ #wrap{gap:3px;padding:3px 7px calc(3px + env(safe-area-inset-bottom))}
+ #top{gap:5px}
+ .pill{padding:4px 9px;font-size:clamp(10px,2.1vh,13px)}
+ #gamebox{border-radius:8px}
+ #hint{font-size:9px}
+ .panel{padding:8px 14px;border-radius:15px}
+ h1{font-size:clamp(17px,5vh,25px);margin-bottom:4px}
+ p{font-size:clamp(11px,2.6vh,14px);line-height:1.22;margin:4px 0}
+ button{padding:8px 18px}
 }
-</style></head><body><div id="wrap"><div id="top"><span class="pill">🎮 Cesar's adventure</span><span class="pill" id="levelLabel">Nivel 1 de 3</span><span class="pill" id="scoreLabel">♡ 0</span></div><div id="gamebox"><canvas id="game" width="960" height="540" aria-label="Videojuego de plataformas"></canvas><div id="overlay"><div class="panel"><h1>Una aventura para César 🏆</h1><p>Corre, recoge corazones y supera tres niveles junto a tu compañero Eko.</p><p><b>Cómo jugar:</b> César corre automáticamente. Toca o haz clic en cualquier parte del juego para saltar. Gira el teléfono horizontalmente para ver mejor la aventura.</p><button id="startBtn">¡Comenzar!</button></div></div></div><div id="hint">Toca o haz clic en la pantalla para saltar · Espacio o ↑ en computadora</div></div>
+@media (orientation:landscape) and (min-width:700px){
+ #wrap{padding:8px 12px calc(7px + env(safe-area-inset-bottom));gap:6px}
+ #gamebox{border-radius:14px}
+}
+</style></head><body><div id="wrap"><div id="top"><span class="pill">🎮 Cesar's adventure</span><span class="pill" id="levelLabel">Nivel 1 de 3</span><span class="pill" id="scoreLabel">♡ 0</span></div><div id="gamebox"><canvas id="game" width="960" height="540" aria-label="Videojuego de plataformas"></canvas><div id="overlay"><div class="panel"><h1>Una aventura para César 🏆</h1><p>Corre, recoge corazones y supera tres niveles junto a tu compañero Eko.</p><p><b>Cómo jugar:</b> César corre automáticamente. Toca la pantalla para saltar, recoge corazones y esquiva las trampas junto a Eko.</p><button id="startBtn">¡Comenzar!</button></div></div></div><div id="hint">TOCA PARA SALTAR · 💗 RECOGE CORAZONES · ESPACIO / ↑ EN COMPUTADORA</div></div><div id="rotateScreen"><div class="rotate-card"><div class="rotate-icon">📱</div><h1>¡Gira tu teléfono! 💖</h1><p>Esta aventura se juega en horizontal para que César y Eko tengan todo el espacio para correr.</p></div></div>
 <script>
 (()=>{
 const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
@@ -95,7 +99,14 @@ function showPanel(title,body,button,action){overlay.innerHTML='<div class="pane
 function birthday(){running=false;finished=true;for(let i=0;i<180;i++)particles.push({x:camera+Math.random()*W,y:-Math.random()*H,vx:(Math.random()-.5)*200,vy:80+Math.random()*220,life:4,color:['#ff5da2','#ffd166','#7bdff2','#b2f7a8','#cdb4db','#fff'][i%6]});showPanel('¡Feliz cumpleaños, Amoy! 🎂💖','<p>Espero que este nuevo año de vida te regale muchísima felicidad, salud, sueños cumplidos y motivos para sonreír. Gracias por ser tú y por compartir tantos momentos conmigo.</p><p>Gracias por ser un padre maravilloso para nuestra hija, te amamos demasiado ❤️✨</p><p><i>Con todo mi amor, para ti.</i></p>','Volver a jugar',begin)}
 function begin(){score=0;levelStartScore=0;finished=false;particles=[];keys={jump:false,left:false,right:false};buildLevel(1);scoreLabel.textContent='♡ 0';overlay.classList.add('hidden');running=true;last=performance.now()}
 function retryCurrentLevel(){score=levelStartScore;scoreLabel.textContent='♡ '+score;finished=false;particles=[];keys={jump:false,left:false,right:false};buildLevel(level);overlay.classList.add('hidden');running=true;last=performance.now()}
-document.getElementById('startBtn').onclick=begin;
+async function preparePlay(){
+ try{if(document.documentElement.requestFullscreen && !document.fullscreenElement) await document.documentElement.requestFullscreen();}
+ catch(e){}
+ try{if(screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape');}
+ catch(e){}
+ begin();
+}
+document.getElementById('startBtn').onclick=preparePlay;
 function jump(){if(!running||finished)return;if(onGround){vy=-650;onGround=false}}
 // Un solo toque/clic en cualquier parte del área de juego provoca el salto.
 const gamebox=document.getElementById('gamebox');
@@ -112,7 +123,7 @@ function gameOver(){
  if(!running||finished)return;
  running=false;finished=true;
  showPanel('¡Uy! ¡Inténtalo otra vez! 😟',
- '',
+ '<p>César chocó o cayó. ¡Vuelve a intentarlo desde el inicio de este nivel!</p>',
  '⟲',retryCurrentLevel);
 }
 
